@@ -1,13 +1,20 @@
 # Questionário Sistemas Embarcados I
 
 ## 1. Explique brevemente o que é compilação cruzada (***cross-compiling***) e para que ela serve.
+Geralmente ao escolhermos um micro-controlador, o mesmo tem uma arquitetura diferente do ambiente de desenvolvimento, sendo assim é preciso utilizar a compilação cruzada, para que se possa utilizar, por exemplo, um computador com sistema INTEL ou AMD, para desenvolver um código de um micro-controlador que utiliza arquitetura ARM.
 
 ## 2. O que é um código de inicialização ou ***startup*** e qual sua finalidade?
+Ao executar um programa utilizando a função main(), diversas tarefas são integradas e foram executadas antes do início do nosso programa. 
+
+Ao utilizarmos a arquitetura do ARM Cortex-M, como não possuímos sistema operacional, devemos fornecer um código com as tarefas a serem realizadas, e a esse código damos o nome de startup.c.
+
+Podemos concluir então que o startup é a forma encontrada de fornecer a lista de tarefas a serem realizadas anteriormente ao nosso programa nos microcontroladores que não possuem um sistema operacional.
+
 
 ## 3. Sobre o utilitário **make** e o arquivo **Makefile responda**:
 
 #### (a) Explique com suas palavras o que é e para que serve o **Makefile**.
-
+O Makefile tem como sua principal função automatizar o processo de compilação, pois ao construir um programa, é necessário informar diversos parâmetros ao código, então é uma ferramenta que traz uma melhoria muito grande quando pensamos, por exemplo, em programas que possuem diversos arquivos fonte, pois torna muito menos trabalhoso encontrar falhas e alterar dados, por exemplo.
 #### (b) Descreva brevemente o processo realizado pelo utilitário **make** para compilar um programa.
 
 #### (c) Qual é a sintaxe utilizada para criar um novo **target**?
