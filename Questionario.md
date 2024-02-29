@@ -16,12 +16,43 @@ Podemos concluir então que o startup é a forma encontrada de fornecer a lista 
 #### (a) Explique com suas palavras o que é e para que serve o **Makefile**.
 O Makefile tem como sua principal função automatizar o processo de compilação, pois ao construir um programa, é necessário informar diversos parâmetros ao código, então é uma ferramenta que traz uma melhoria muito grande quando pensamos, por exemplo, em programas que possuem diversos arquivos fonte, pois torna muito menos trabalhoso encontrar falhas e alterar dados, por exemplo.
 #### (b) Descreva brevemente o processo realizado pelo utilitário **make** para compilar um programa.
+O make é utilizado para compilar as instruções que estão no arquivo Makefile. Então ao montar o seu makefile, colocando as informações necessárias, como: definição de variáveis, comentários, regras explícitas e implícitas, você utiliza o comando make para trazer essas informações ao programa que você está construindo o código, e precisa das informações acima.
+O make é utilizado para compilar as instruções que estão no arquivo Makefile. Então ao montar o seu makefile, colocando as informações necessárias, como: definição de variáveis, comentários, regras explícitas e implícitas, você utiliza o comando make para trazer essas informações ao programa que você está construindo o código, e precisa das informações acima.
 
 #### (c) Qual é a sintaxe utilizada para criar um novo **target**?
+Para se criar um novo **target** devemos escrever o nome do arquivo separados por espaços. 
+
+Exemplo:  
+
+main.o: main.c
+
+target:  arm-none-eabi-gcc -c -g -mcpu=cortex-m4 -mthumb -O0 -Wall main.c -o main.o
 
 #### (d) Como são definidas as dependências de um **target**, para que elas são utilizadas?
 
+Para definirmos as dependências de um target devemos atualizar o comando all, pois ao executar o makefile sem utilizar dependências, apenas o primeiro target será executado, para isso é preciso informar as dependências no makefile utilizando o all.
+
+ Exemplo:
+
+all: startup.o main.o
+
+main.o: main.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+startup.o: startup.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+No exemplo acima, informamos que o main.o tem dependência do startup.o
+
+
 #### (e) O que são as regras do **Makefile**, qual a diferença entre regras implícitas e explícitas?
+O make é utilizado para compilar automaticamente programas e bibliotecas informadas no makefile, esses programas contidos no makefile são separados em diferentes tipos de elementos, dois deles são as regras implícitas e explícitas.
+
+Que são: 
+
+regras implícitas: Tem ligação com o nome do arquivo, dizendo quando refazer uma classe de arquivos levando em consideração seu nome e criar uma receita para atualizar esse arquivo.
+
+regras explícitas: Utilizada para refazer um ou mais arquivos, listando os arquivos que dependem dela e chamando os pré-requisitos para os alvos.
 
 ## 4. Sobre a arquitetura **ARM Cortex-M** responda:
 
