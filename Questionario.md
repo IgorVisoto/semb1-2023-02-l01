@@ -57,22 +57,59 @@ regras explícitas: Utilizada para refazer um ou mais arquivos, listando os arqu
 ## 4. Sobre a arquitetura **ARM Cortex-M** responda:
 
 ### (a) Explique o conjunto de instruções ***Thumb*** e suas principais vantagens na arquitetura ARM. Como o conjunto de instruções ***Thumb*** opera em conjunto com o conjunto de instruções ARM?
+O conjunto de instruções Thumb é uma extensão do conjunto de instruções ARM e tem como objetivo fornecer maior eficiência em termos de tamanho de código e consumo de energia, especialmente em sistemas embarcados.
+As instruções ARM são mais compactas e ocupam apenas 16 bits, enquanto as instruções ARM ocupam 32 bits, o que economiza significativamente espaço de armazenamento e reduz a quantidade de dados transferidos da memória para a unidade de processamento.
 
 ### (b) Explique as diferenças entre as arquiteturas ***ARM Load/Store*** e ***Register/Register***.
 
+Tanto a arquitetura de carregamento/armazenamento ARM quanto a arquitetura de registro/registro são abordagens diferentes para lidar com operações de memória no processamento ARM.
+ Na arquitetura de carregamento/armazenamento usada em processadores mais simples, chamada RISC, a memória não opera diretamente nos registradores, portanto, você carrega dados da memória em registradores  e armazena dados em registradores de memória.
+ São necessárias instruções especiais.
+ Desta forma,  as operações de acesso à memória são separadas das operações aritméticas.
+ A arquitetura registrador/registro permite que operações aritméticas sejam realizadas diretamente entre registradores sem acesso à memória, tornando as operações mais eficientes e reduzindo dependências de memória.
+ No entanto, isto aumenta a complexidade e exige a disponibilidade de mais registos
+
 ### (c) Os processadores **ARM Cortex-M** oferecem diversos recursos que podem ser explorados por sistemas baseados em **RTOS** (***Real Time Operating Systems***). Por exemplo, a separação da execução do código em níveis de acesso e diferentes modos de operação. Explique detalhadamente como funciona os níveis de acesso de execução de código e os modos de operação nos processadores **ARM Cortex-M**.
+
+Os processadores ARM Cortex-M têm dois níveis de acesso principais: privilegiado e  não privilegiado.
+ Os usuários privilegiados podem usar todas as instruções e acessar todos os recursos, enquanto os usuários não privilegiados têm acesso limitado.
+ Dessa forma, o acesso  à memória, aos periféricos e às instruções em linguagem de máquina é restrito.
+ Além disso, esses processadores possuem diversos modos de operação que afetam o conjunto de instruções acessíveis e o uso dos recursos do sistema.
 
 ### (d) Explique como os processadores ARM tratam as exceções e as interrupções. Quais são os diferentes tipos de exceção e como elas são priorizadas? Descreva a estratégia de **group priority** e **sub-priority** presente nesse processo.
 
 ### (e) Qual a diferença entre os registradores **CPSR** (***Current Program Status Register***) e **SPSR** (***Saved Program Status Register***)?
+Ambos os registros no processador ARM Cortex M são usados ​​para armazenar informações sobre o estado atual  ou  salvo do processador durante a execução da instrução.
+ Portanto, o CPSR, como o próprio nome sugere, mantém informações sobre o estado atual do processador ao executar instruções no processador, normalmente os estados dos sinalizadores que são afetados ao executar instruções do tipo condicional.
+ SPSR salva o estado  CPSR antes de entrar no modo de exceção.
+ Portanto, quando ocorre uma exceção, o estado do CPRS é copiado para o SPSR antes 
 
 ### (f) Qual a finalidade do **LR** (***Link Register***)?
+Quando uma função é chamada, o endereço  para o qual a função precisa retornar é armazenado no registrador de link.
+ Em outras palavras, é como um marcador  que indica para onde você precisa retornar quando todo o processo da função for finalizado.
 
 ### (g) Qual o propósito do Program Status Register (PSR) nos processadores ARM?
+O PSR ARM é um registro de 32 bits que controla e reflete o status do processador.
+ Eles permitem que as operações do sistema determinem rapidamente o status atual do processador e também habilitam código de baixo nível (baixo nível).
+ Modifique com eficiência a execução do seu ambiente.
+
 
 ### (h) O que é a tabela de vetores de interrupção?
+As tabelas de vetores de interrupção são a base para o gerenciamento de rotinas de tratamento de interrupções.
+ Quando uma interrupção é acionada, o processador mantém seu estado atual e começa a executar a rotina apontada pelo vetor correspondente.
+ Na arquitetura ARM, 15 vetores são reservados para exceções geradas, começando pelo primeiro vetor de interrupção, o “reset handler”, no endereço 0x0000 0004, e os endereços são alocados durante o processo de vinculação.
+ Definir esta tabela é importante para evitar comportamentos inesperados quando ocorrem exceções não tratadas.
+ Portanto, deve ser reservado espaço suficiente no início da memória flash para armazenar toda a tabela de dispositivos, o que requer uma alocação de 408 bytes.
+
 
 ### (i) Qual a finalidade do NVIC (**Nested Vectored Interrupt Controller**) nos microcontroladores ARM e como ele pode ser utilizado em aplicações de tempo real?
+
+O NVIC é um componente  para gerenciar e responder a eventos de interrupção, independente de sua origem.
+ Isso fornece uma maneira eficaz de lidar com essas situações de maneira ordenada e priorizada.
+ Garante que as interrupções de alta prioridade sejam priorizadas e os eventos importantes sejam processados ​​primeiro, garantindo uma resposta rápida.
+ Além disso, ele pode lidar com interrupções que ocorrem durante o processamento de outra interrupção, permitindo lidar com múltiplas situações de interrupção.
+ Os NVICs são configuráveis ​​e podem ser adaptados aos requisitos específicos da aplicação.
+ Em sistemas de tempo real, o NVIC garante  tratamento de interrupções eficiente e oportuno.
 
 ### (j) Em modo de execução normal, o Cortex-M pode fazer uma chamada de função usando a instrução **BL**, que muda o **PC** para o endereço de destino e salva o ponto de execução atual no registador **LR**. Ao final da função, é possível recuperar esse contexto usando uma instrução **BX LR**, por exemplo, que atualiza o **PC** para o ponto anterior. No entanto, quando acontece uma interrupção, o **LR** é preenchido com um valor completamente  diferente,  chamado  de  **EXC_RETURN**.  Explique  o  funcionamento  desse  mecanismo  e especifique como o **Cortex-M** consegue fazer o retorno da interrupção. 
 
